@@ -1,7 +1,7 @@
 splay_tree (0.2.4)
 ==================
 
-A [SplayTree](http://en.wikipedia.org/wiki/Splay_tree) implementation in Erlang.
+An implementation of [SplayTree](http://en.wikipedia.org/wiki/Splay_tree) in Erlang.
 
 QuickStart
 ----------
@@ -34,3 +34,9 @@ nil
 3> splay_tree:to_list(Tree1).
 [{key,value}]
 ```
+
+API
+---
+
+See [EDoc Document](doc/splay_tree.md)
+
