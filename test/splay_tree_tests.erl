@@ -1,3 +1,5 @@
+%% @copyright 2013-2014 Takeru Ohta <phjgt308@gmail.com>
+%%
 -module(splay_tree_tests).
 
 -include_lib("eunit/include/eunit.hrl").

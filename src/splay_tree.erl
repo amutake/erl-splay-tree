@@ -1,6 +1,11 @@
-%% @copyright 2013 Takeru Ohta <phjgt308@gmail.com>
+%% @copyright 2013-2014 Takeru Ohta <phjgt308@gmail.com>
 %%
 %% @doc SplayTree
+%%
+%% An implementation of SplayTree. <br />
+%% This module considers two keys as different if and only if they do not compare equal (==). <br />
+%%
+%% @reference See <a href="http://en.wikipedia.org/wiki/Splay_tree">SplayTree(Wikipedia)</a> for more information.
 -module(splay_tree).
 
 -compile(inline).
@@ -20,11 +25,12 @@
 %%--------------------------------------------------------------------------------
 %% Types
 %%--------------------------------------------------------------------------------
--opaque tree()             :: maybe_tree_node().
--opaque tree(_Key, _Vlaue) :: maybe_tree_node().
+-type tree()               :: tree(term(), term()).
+-opaque tree(_Key, _Vlaue) :: maybe_tree_node(). % A splay tree
 
 -type key()       :: any().
 -type value()     :: any().
+
 -type update_fn() :: fun((value()) -> value()).
 -type map_fn()    :: fun((key(),value()) -> value()).
 -type pred_fn()   :: fun((key(),value()) -> boolean()).
@@ -40,13 +46,39 @@
 %%--------------------------------------------------------------------------------
 %% Exported Functions
 %%--------------------------------------------------------------------------------
+%% @doc Returns a new empty tree
+%%
+%% ```
+%% > splay_tree:new().
+%% nil
+%% '''
 -spec new() -> tree().
 new() -> nil.
 
+%% @doc Returns the number of elements in Tree
+%%
+%% Note that tree() has no size field so the function takes linear time to calculate Tree size.
+%%
+%% ```
+%% > splay_tree:size(splay_tree:new()).
+%% 0
+%%
+%% > splay_tree:size(splay_tree:from_list([{1, one}, {2, two}])).
+%% 2
+%% '''
 -spec size(tree()) -> non_neg_integer().
 size(Tree) -> foldl(fun (_, _, Count) -> Count+1 end, 0, Tree).
 
--spec is_empty(tree()) -> boolean().
+%% @doc Returnes true if Tree is an empty tree, and false otherwise.
+%%
+%% ```
+%% > splay_tree:is_empty(splay_tree:new()).
+%% true
+%%
+%% > splay_tree:is_empty(splay_tree:from_list([{1, one}, {2, two}])).
+%% false
+%% '''
+-spec is_empty(Tree::tree()) -> boolean().
 is_empty(nil) -> true;
 is_empty(_)   -> false.
                  

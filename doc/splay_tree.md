@@ -8,7 +8,21 @@
 
 
 SplayTree.
-Copyright (c) 2013 Takeru Ohta <phjgt308@gmail.com>
+Copyright (c) 2013-2014 Takeru Ohta <phjgt308@gmail.com>
+
+
+__References__* See [SplayTree(Wikipedia)](http://en.wikipedia.org/wiki/Splay_tree) for more information.
+
+<a name="description"></a>
+
+## Description ##
+
+
+An implementation of SplayTree. 
+<br></br>
+
+This module considers two keys as different if and only if they do not compare equal (==). 
+<br></br>
 
 
 <a name="types"></a>
@@ -84,12 +98,18 @@ pred_fn() = fun((<a href="#type-key">key()</a>, <a href="#type-value">value()</a
 __abstract datatype__: `tree(_Key, _Vlaue)`
 
 
+ A splay tree
+
 
 
 ### <a name="type-tree">tree()</a> ###
 
 
-__abstract datatype__: `tree()`
+
+<pre><code>
+tree() = <a href="#type-tree">tree</a>(term(), term())
+</code></pre>
+
 
 
 
@@ -120,7 +140,7 @@ value() = any()
 ## Function Index ##
 
 
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#erase-2">erase/2</a></td><td></td></tr><tr><td valign="top"><a href="#filter-2">filter/2</a></td><td></td></tr><tr><td valign="top"><a href="#find-2">find/2</a></td><td></td></tr><tr><td valign="top"><a href="#find_largest-1">find_largest/1</a></td><td></td></tr><tr><td valign="top"><a href="#find_smallest-1">find_smallest/1</a></td><td></td></tr><tr><td valign="top"><a href="#foldl-3">foldl/3</a></td><td></td></tr><tr><td valign="top"><a href="#foldl_while-3">foldl_while/3</a></td><td></td></tr><tr><td valign="top"><a href="#foldr-3">foldr/3</a></td><td></td></tr><tr><td valign="top"><a href="#foldr_while-3">foldr_while/3</a></td><td></td></tr><tr><td valign="top"><a href="#from_list-1">from_list/1</a></td><td></td></tr><tr><td valign="top"><a href="#get_value-3">get_value/3</a></td><td></td></tr><tr><td valign="top"><a href="#is_empty-1">is_empty/1</a></td><td></td></tr><tr><td valign="top"><a href="#lookup-2">lookup/2</a></td><td></td></tr><tr><td valign="top"><a href="#map-2">map/2</a></td><td></td></tr><tr><td valign="top"><a href="#new-0">new/0</a></td><td></td></tr><tr><td valign="top"><a href="#size-1">size/1</a></td><td></td></tr><tr><td valign="top"><a href="#split-2">split/2</a></td><td></td></tr><tr><td valign="top"><a href="#store-3">store/3</a></td><td></td></tr><tr><td valign="top"><a href="#take_largest-1">take_largest/1</a></td><td></td></tr><tr><td valign="top"><a href="#take_smallest-1">take_smallest/1</a></td><td></td></tr><tr><td valign="top"><a href="#to_list-1">to_list/1</a></td><td></td></tr><tr><td valign="top"><a href="#update-3">update/3</a></td><td></td></tr><tr><td valign="top"><a href="#update-4">update/4</a></td><td></td></tr></table>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#erase-2">erase/2</a></td><td></td></tr><tr><td valign="top"><a href="#filter-2">filter/2</a></td><td></td></tr><tr><td valign="top"><a href="#find-2">find/2</a></td><td></td></tr><tr><td valign="top"><a href="#find_largest-1">find_largest/1</a></td><td></td></tr><tr><td valign="top"><a href="#find_smallest-1">find_smallest/1</a></td><td></td></tr><tr><td valign="top"><a href="#foldl-3">foldl/3</a></td><td></td></tr><tr><td valign="top"><a href="#foldl_while-3">foldl_while/3</a></td><td></td></tr><tr><td valign="top"><a href="#foldr-3">foldr/3</a></td><td></td></tr><tr><td valign="top"><a href="#foldr_while-3">foldr_while/3</a></td><td></td></tr><tr><td valign="top"><a href="#from_list-1">from_list/1</a></td><td></td></tr><tr><td valign="top"><a href="#get_value-3">get_value/3</a></td><td></td></tr><tr><td valign="top"><a href="#is_empty-1">is_empty/1</a></td><td>Returnes true if Tree is an empty tree, and false otherwise.</td></tr><tr><td valign="top"><a href="#lookup-2">lookup/2</a></td><td></td></tr><tr><td valign="top"><a href="#map-2">map/2</a></td><td></td></tr><tr><td valign="top"><a href="#new-0">new/0</a></td><td>Returns a new empty tree.</td></tr><tr><td valign="top"><a href="#size-1">size/1</a></td><td>Returns the number of elements in Tree.</td></tr><tr><td valign="top"><a href="#split-2">split/2</a></td><td></td></tr><tr><td valign="top"><a href="#store-3">store/3</a></td><td></td></tr><tr><td valign="top"><a href="#take_largest-1">take_largest/1</a></td><td></td></tr><tr><td valign="top"><a href="#take_smallest-1">take_smallest/1</a></td><td></td></tr><tr><td valign="top"><a href="#to_list-1">to_list/1</a></td><td></td></tr><tr><td valign="top"><a href="#update-3">update/3</a></td><td></td></tr><tr><td valign="top"><a href="#update-4">update/4</a></td><td></td></tr></table>
 
 
 <a name="functions"></a>
@@ -276,12 +296,23 @@ get_value(Key::<a href="#type-key">key()</a>, Root::<a href="#type-tree">tree()<
 
 
 <pre><code>
-is_empty(X1::<a href="#type-tree">tree()</a>) -&gt; boolean()
+is_empty(Tree::<a href="#type-tree">tree()</a>) -&gt; boolean()
 </code></pre>
 
 <br></br>
 
 
+
+Returnes true if Tree is an empty tree, and false otherwise.
+
+
+
+```
+  > splay_tree:is_empty(splay_tree:new()).
+  true
+  > splay_tree:is_empty(splay_tree:from_list([{1, one}, {2, two}])).
+  false
+```
 
 <a name="lookup-2"></a>
 
@@ -322,6 +353,15 @@ new() -&gt; <a href="#type-tree">tree()</a>
 
 
 
+Returns a new empty tree
+
+
+
+```
+  > splay_tree:new().
+  nil
+```
+
 <a name="size-1"></a>
 
 ### size/1 ###
@@ -334,6 +374,21 @@ size(Tree::<a href="#type-tree">tree()</a>) -&gt; non_neg_integer()
 <br></br>
 
 
+
+Returns the number of elements in Tree
+
+
+
+Note that tree() has no size field so the function takes linear time to calculate Tree size.
+
+
+
+```
+  > splay_tree:size(splay_tree:new()).
+  0
+  > splay_tree:size(splay_tree:from_list([{1, one}, {2, two}])).
+  2
+```
 
 <a name="split-2"></a>
 
