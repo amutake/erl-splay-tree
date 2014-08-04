@@ -56,12 +56,12 @@ find_test() ->
 
 find_largest_test_() ->
     [
-     {"最大の要素を検索する",
+     {"finds largest element",
       fun () ->
               Tree = splay_tree:from_list([{5,5}, {1,1}, {3,3}]),
               ?assertMatch({{ok,5,5}, _}, splay_tree:find_largest(Tree))
       end},
-     {"空の場合",
+     {"empty tree",
       fun () ->
               Empty = splay_tree:new(),
               ?assertEqual({error, Empty}, splay_tree:find_largest(Empty))
@@ -70,12 +70,12 @@ find_largest_test_() ->
 
 find_smallest_test_() ->
     [
-     {"最小の要素を検索する",
+     {"finds smallest element",
       fun () ->
               Tree = splay_tree:from_list([{5,5}, {1,1}, {3,3}]),
               ?assertMatch({{ok,1,1}, _}, splay_tree:find_smallest(Tree))
       end},
-     {"空の場合",
+     {"empty tree",
       fun () ->
               Empty = splay_tree:new(),
               ?assertEqual({error, Empty}, splay_tree:find_smallest(Empty))
@@ -84,7 +84,7 @@ find_smallest_test_() ->
 
 take_largest_test_() ->
     [
-     {"最大の要素から順に取り出す",
+     {"takes elements in descending order",
       fun () ->
               Tree0 = splay_tree:from_list([{5,5}, {1,1}, {3,3}]),
 
@@ -103,7 +103,7 @@ take_largest_test_() ->
 
 take_smallest_test_() ->
     [
-     {"最小の要素から順に取り出す",
+     {"takes elements in ascending order",
       fun () ->
               Tree0 = splay_tree:from_list([{5,5}, {1,1}, {3,3}]),
 
@@ -276,7 +276,7 @@ equal_test() ->
 
 split_test_() ->
     [
-     {"指定したキーの位置で分割する",
+     {"splits by exitings key",
       fun () ->
               List0 = [{1, a}, {2, b}, {3, c}, {4, d}, {5, e}],
               Tree0 = splay_tree:from_list(List0),
@@ -290,12 +290,12 @@ split_test_() ->
                 end,
                 lists:seq(1, length(List0)))
       end},
-     {"空のツリーを分割した場合",
+     {"splits empty tree",
       fun () ->
               Empty = splay_tree:new(),
               ?assertEqual({Empty, Empty}, splay_tree:split(key, Empty))
       end},
-     {"指定したキーが存在しない場合",
+     {"splits by non-existing key",
       fun () ->
               List0 = [{1, a}, {2, b}, {3, c}],
               Tree0 = splay_tree:from_list(List0),

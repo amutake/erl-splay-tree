@@ -1,25 +1,33 @@
-ERLC_OPTS="[warnings_as_errors, warn_export_all, warn_untyped_record]"
+APP=splay_tree
 
-all: compile eunit                                                   
+DIALYZER_OPTS=-Werror_handling -Wrace_conditions -Wunmatched_returns
+
+all: compile xref eunit dialyze
+
+init:
+	@./rebar get-deps compile 
 
 compile:
-	@ERL_COMPILER_OPTIONS=$(ERLC_OPTS) ./rebar compile
+	@./rebar compile skip_deps=true
 
 xref:
-	@./rebar xref
+	@./rebar xref skip_deps=true
 
 clean:
-	@./rebar clean
+	@./rebar clean skip_deps=true
 
 eunit:
-	@./rebar eunit
+	@./rebar eunit skip_deps=true
 
 edoc:
-	@./rebar doc
+	@./rebar doc skip_deps=true
+
+start: compile
+	erl -pz ebin deps/*/ebin -eval 'erlang:display({start_app, $(APP), application:start($(APP))}).'
 
 .dialyzer.plt:
 	touch .dialyzer.plt
 	dialyzer --build_plt --plt .dialyzer.plt --apps erts kernel stdlib
 
-dialyze: .dialyzer.plt
-	dialyzer --plt .dialyzer.plt -r ebin
+dialyze: .dialyzer.plt compile
+	dialyzer --plt .dialyzer.plt -r ebin $(DIALYZER_OPTS)

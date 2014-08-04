@@ -20,8 +20,8 @@
 %%--------------------------------------------------------------------------------
 %% Types
 %%--------------------------------------------------------------------------------
--type tree()             :: maybe_tree_node().
--type tree(_Key, _Vlaue) :: maybe_tree_node().
+-opaque tree()             :: maybe_tree_node().
+-opaque tree(_Key, _Vlaue) :: maybe_tree_node().
 
 -type key()       :: any().
 -type value()     :: any().
