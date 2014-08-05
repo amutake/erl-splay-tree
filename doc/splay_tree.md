@@ -140,7 +140,7 @@ value() = any()
 ## Function Index ##
 
 
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#erase-2">erase/2</a></td><td></td></tr><tr><td valign="top"><a href="#filter-2">filter/2</a></td><td></td></tr><tr><td valign="top"><a href="#find-2">find/2</a></td><td></td></tr><tr><td valign="top"><a href="#find_largest-1">find_largest/1</a></td><td></td></tr><tr><td valign="top"><a href="#find_smallest-1">find_smallest/1</a></td><td></td></tr><tr><td valign="top"><a href="#foldl-3">foldl/3</a></td><td></td></tr><tr><td valign="top"><a href="#foldl_while-3">foldl_while/3</a></td><td></td></tr><tr><td valign="top"><a href="#foldr-3">foldr/3</a></td><td></td></tr><tr><td valign="top"><a href="#foldr_while-3">foldr_while/3</a></td><td></td></tr><tr><td valign="top"><a href="#from_list-1">from_list/1</a></td><td></td></tr><tr><td valign="top"><a href="#get_value-3">get_value/3</a></td><td></td></tr><tr><td valign="top"><a href="#is_empty-1">is_empty/1</a></td><td>Returnes true if Tree is an empty tree, and false otherwise.</td></tr><tr><td valign="top"><a href="#lookup-2">lookup/2</a></td><td></td></tr><tr><td valign="top"><a href="#map-2">map/2</a></td><td></td></tr><tr><td valign="top"><a href="#new-0">new/0</a></td><td>Returns a new empty tree.</td></tr><tr><td valign="top"><a href="#size-1">size/1</a></td><td>Returns the number of elements in Tree.</td></tr><tr><td valign="top"><a href="#split-2">split/2</a></td><td></td></tr><tr><td valign="top"><a href="#store-3">store/3</a></td><td></td></tr><tr><td valign="top"><a href="#take_largest-1">take_largest/1</a></td><td></td></tr><tr><td valign="top"><a href="#take_smallest-1">take_smallest/1</a></td><td></td></tr><tr><td valign="top"><a href="#to_list-1">to_list/1</a></td><td></td></tr><tr><td valign="top"><a href="#update-3">update/3</a></td><td></td></tr><tr><td valign="top"><a href="#update-4">update/4</a></td><td></td></tr></table>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#erase-2">erase/2</a></td><td></td></tr><tr><td valign="top"><a href="#filter-2">filter/2</a></td><td></td></tr><tr><td valign="top"><a href="#find-2">find/2</a></td><td></td></tr><tr><td valign="top"><a href="#find_largest-1">find_largest/1</a></td><td></td></tr><tr><td valign="top"><a href="#find_smallest-1">find_smallest/1</a></td><td></td></tr><tr><td valign="top"><a href="#foldl-3">foldl/3</a></td><td></td></tr><tr><td valign="top"><a href="#foldl_while-3">foldl_while/3</a></td><td></td></tr><tr><td valign="top"><a href="#foldr-3">foldr/3</a></td><td></td></tr><tr><td valign="top"><a href="#foldr_while-3">foldr_while/3</a></td><td></td></tr><tr><td valign="top"><a href="#from_list-1">from_list/1</a></td><td></td></tr><tr><td valign="top"><a href="#get_value-3">get_value/3</a></td><td></td></tr><tr><td valign="top"><a href="#is_empty-1">is_empty/1</a></td><td>Returnes <code>true</code> if <code>Tree</code> is an empty tree, and <code>false</code> otherwise.</td></tr><tr><td valign="top"><a href="#lookup-2">lookup/2</a></td><td></td></tr><tr><td valign="top"><a href="#map-2">map/2</a></td><td></td></tr><tr><td valign="top"><a href="#new-0">new/0</a></td><td>Returns a new empty tree.</td></tr><tr><td valign="top"><a href="#size-1">size/1</a></td><td>Returns the number of elements in <code>Tree</code></td></tr><tr><td valign="top"><a href="#split-2">split/2</a></td><td></td></tr><tr><td valign="top"><a href="#store-3">store/3</a></td><td>Stores <code>Key</code> with value <code>Value</code> into <code>Tree</code></td></tr><tr><td valign="top"><a href="#take_largest-1">take_largest/1</a></td><td></td></tr><tr><td valign="top"><a href="#take_smallest-1">take_smallest/1</a></td><td></td></tr><tr><td valign="top"><a href="#to_list-1">to_list/1</a></td><td></td></tr><tr><td valign="top"><a href="#update-3">update/3</a></td><td>Updates a value in <code>Tree</code> by calling <code>Fun</code> on the value to get a new value.</td></tr><tr><td valign="top"><a href="#update-4">update/4</a></td><td>Updates a value in <code>Tree</code> by calling <code>Fun</code> on the value to get a new value.</td></tr></table>
 
 
 <a name="functions"></a>
@@ -303,13 +303,15 @@ is_empty(Tree::<a href="#type-tree">tree()</a>) -&gt; boolean()
 
 
 
-Returnes true if Tree is an empty tree, and false otherwise.
+Returnes `true` if `Tree` is an empty tree, and `false` otherwise.
 
 
 
-```
+```erlang
+
   > splay_tree:is_empty(splay_tree:new()).
   true
+  >
   > splay_tree:is_empty(splay_tree:from_list([{1, one}, {2, two}])).
   false
 ```
@@ -357,9 +359,11 @@ Returns a new empty tree
 
 
 
-```
-  > splay_tree:new().
-  nil
+```erlang
+
+  > Tree = splay_tree:new().
+  > splay_tree:to_list(Tree).
+  []
 ```
 
 <a name="size-1"></a>
@@ -375,17 +379,19 @@ size(Tree::<a href="#type-tree">tree()</a>) -&gt; non_neg_integer()
 
 
 
-Returns the number of elements in Tree
+Returns the number of elements in `Tree`
 
 
 
-Note that tree() has no size field so the function takes linear time to calculate Tree size.
+Note that `tree()` has no size field internally so the function takes linear time to calculate `Tree` size.
 
 
 
-```
+```erlang
+
   > splay_tree:size(splay_tree:new()).
   0
+  >
   > splay_tree:size(splay_tree:from_list([{1, one}, {2, two}])).
   2
 ```
@@ -409,12 +415,35 @@ split(BorderKey::<a href="#type-key">key()</a>, Tree::<a href="#type-tree">tree(
 
 
 <pre><code>
-store(Key::<a href="#type-key">key()</a>, Value::<a href="#type-value">value()</a>, Root::<a href="#type-tree">tree()</a>) -&gt; <a href="#type-tree">tree()</a>
+store(Key::<a href="#type-key">key()</a>, Value::<a href="#type-value">value()</a>, Tree::<a href="#type-tree">tree()</a>) -&gt; <a href="#type-tree">tree()</a>
 </code></pre>
 
 <br></br>
 
 
+
+Stores `Key` with value `Value` into `Tree`
+
+
+
+If the `Key` already exists in `Tree`, the associated value is replaced by `Value`
+
+
+
+```erlang
+
+  > Tree0 = splay_tree:store(1, one, splay_tree:new()).
+  > splay_tree:to_list(Tree0).
+  [{1,one}]
+  >
+  > Tree1 = splay_tree:store(2, two, Tree0).
+  > splay_tree:to_list(Tree1).
+  [{1,one}, {2,two}]
+  >
+  > Tree2 = splay_tree:store(1, eins, Tree1).
+  > splay_tree:to_list(Tree2).
+  [{1,eins}, {2,two}]
+```
 
 <a name="take_largest-1"></a>
 
@@ -461,12 +490,33 @@ to_list(Tree::<a href="#type-tree">tree()</a>) -&gt; [{<a href="#type-key">key()
 
 
 <pre><code>
-update(Key::<a href="#type-key">key()</a>, Fun::<a href="#type-update_fn">update_fn()</a>, Root::<a href="#type-tree">tree()</a>) -&gt; <a href="#type-tree">tree()</a> | error
+update(Key::<a href="#type-key">key()</a>, Fun::<a href="#type-update_fn">update_fn()</a>, Tree::<a href="#type-tree">tree()</a>) -&gt; <a href="#type-tree">tree()</a>
 </code></pre>
 
 <br></br>
 
 
+
+Updates a value in `Tree` by calling `Fun` on the value to get a new value
+
+
+
+An exception is generated if `Key` is not present in the tree.
+
+
+
+```erlang
+
+  > Tree0 = splay_tree:from_list([{1, one}, {2, two}]).
+  > Tree1 = splay_tree:update(1, fun (V) -> {V, V} end, Tree0).
+  > splay_tree:to_list(Tree1).
+  [{1,{one,one}}, {2,two}]
+  >
+  > splay_tree:update(3, fun (V) -> {V, V} end, Tree1).
+  ** exception error: bad argument
+       in function  splay_tree:update/3
+          called as splay_tree:update(3,#Fun<erl_eval.6.90072148>,{1,{one,one},nil,{2,two}})
+```
 
 <a name="update-4"></a>
 
@@ -474,10 +524,30 @@ update(Key::<a href="#type-key">key()</a>, Fun::<a href="#type-update_fn">update
 
 
 <pre><code>
-update(Key::<a href="#type-key">key()</a>, Fun::<a href="#type-update_fn">update_fn()</a>, Initial::<a href="#type-value">value()</a>, Root::<a href="#type-tree">tree()</a>) -&gt; <a href="#type-tree">tree()</a>
+update(Key::<a href="#type-key">key()</a>, Fun::<a href="#type-update_fn">update_fn()</a>, Initial::<a href="#type-value">value()</a>, Tree::<a href="#type-tree">tree()</a>) -&gt; <a href="#type-tree">tree()</a>
 </code></pre>
 
 <br></br>
 
 
+
+Updates a value in `Tree` by calling `Fun` on the value to get a new value
+
+
+
+If `Key` is not present in the tree then `Initial` will be stored as the first value
+
+
+
+```erlang
+
+  > Tree0 = splay_tree:from_list([{1, one}, {2, two}]).
+  > Tree1 = splay_tree:update(1, fun (V) -> {V, V} end, initial, Tree0).
+  > splay_tree:to_list(Tree1).
+  [{1,{one,one}}, {2,two}]
+  >
+  > Tree2 = splay_tree:update(3, fun (V) -> {V, V} end, initial, Tree1).
+  > splay_tree:to_list(Tree2).
+  [{1,{one,one}}, {2,two}, {3,initial}].
+```
 

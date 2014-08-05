@@ -48,58 +48,105 @@
 %%--------------------------------------------------------------------------------
 %% @doc Returns a new empty tree
 %%
-%% ```
-%% > splay_tree:new().
-%% nil
-%% '''
+%% <pre lang="erlang">
+%% > Tree = splay_tree:new().
+%% > splay_tree:to_list(Tree).
+%% []
+%% </pre>
 -spec new() -> tree().
 new() -> nil.
 
-%% @doc Returns the number of elements in Tree
+%% @doc Returns the number of elements in `Tree'
 %%
-%% Note that tree() has no size field so the function takes linear time to calculate Tree size.
+%% Note that `tree()' has no size field internally so the function takes linear time to calculate `Tree' size.
 %%
-%% ```
+%% <pre lang="erlang">
 %% > splay_tree:size(splay_tree:new()).
 %% 0
-%%
+%% >
 %% > splay_tree:size(splay_tree:from_list([{1, one}, {2, two}])).
 %% 2
-%% '''
+%% </pre>
 -spec size(tree()) -> non_neg_integer().
 size(Tree) -> foldl(fun (_, _, Count) -> Count+1 end, 0, Tree).
 
-%% @doc Returnes true if Tree is an empty tree, and false otherwise.
+%% @doc Returnes `true' if `Tree' is an empty tree, and `false' otherwise.
 %%
-%% ```
+%% <pre lang="erlang">
 %% > splay_tree:is_empty(splay_tree:new()).
 %% true
-%%
+%% >
 %% > splay_tree:is_empty(splay_tree:from_list([{1, one}, {2, two}])).
 %% false
-%% '''
+%% </pre>
 -spec is_empty(Tree::tree()) -> boolean().
 is_empty(nil) -> true;
 is_empty(_)   -> false.
-                 
+
+%% @doc Stores `Key' with value `Value' into `Tree'
+%%
+%% If the `Key' already exists in `Tree', the associated value is replaced by `Value'
+%%
+%% <pre lang="erlang">
+%% > Tree0 = splay_tree:store(1, one, splay_tree:new()).
+%% > splay_tree:to_list(Tree0).
+%% [{1,one}]
+%% >
+%% > Tree1 = splay_tree:store(2, two, Tree0).
+%% > splay_tree:to_list(Tree1).
+%% [{1,one}, {2,two}]
+%% >
+%% > Tree2 = splay_tree:store(1, eins, Tree1).
+%% > splay_tree:to_list(Tree2).
+%% [{1,eins}, {2,two}]
+%% </pre>
 -spec store(key(), value(), tree()) -> tree().
-store(Key, Value, Root) ->
-    case path_to_node(Key, Root) of
+store(Key, Value, Tree) ->
+    case path_to_node(Key, Tree) of
         {nil,  Path} -> splay(leaf(Key,Value), Path);
         {Node, Path} -> splay(val(Node,Value), Path)
     end.
 
+%% @doc Updates a value in `Tree' by calling `Fun' on the value to get a new value
+%%
+%% If `Key' is not present in the tree then `Initial' will be stored as the first value
+%%
+%% <pre lang="erlang">
+%% > Tree0 = splay_tree:from_list([{1, one}, {2, two}]).
+%% > Tree1 = splay_tree:update(1, fun (V) -> {V, V} end, initial, Tree0).
+%% > splay_tree:to_list(Tree1).
+%% [{1,{one,one}}, {2,two}]
+%% >
+%% > Tree2 = splay_tree:update(3, fun (V) -> {V, V} end, initial, Tree1).
+%% > splay_tree:to_list(Tree2).
+%% [{1,{one,one}}, {2,two}, {3,initial}].
+%% </pre>
 -spec update(key(), update_fn(), value(), tree()) -> tree().
-update(Key, Fun, Initial, Root) ->
-    case path_to_node(Key, Root) of
+update(Key, Fun, Initial, Tree) ->
+    case path_to_node(Key, Tree) of
         {nil,  Path} -> splay(leaf(Key,Initial), Path);
         {Node, Path} -> splay(val(Node,Fun(val(Node))), Path)
     end.
 
--spec update(key(), update_fn(), tree()) -> tree()|error.
-update(Key, Fun, Root) ->
-    case path_to_node(Key, Root) of
-        {nil, _Path} -> error;
+%% @doc Updates a value in `Tree' by calling `Fun' on the value to get a new value
+%%
+%% An exception is generated if `Key' is not present in the tree.
+%%
+%% <pre lang="erlang">
+%% > Tree0 = splay_tree:from_list([{1, one}, {2, two}]).
+%% > Tree1 = splay_tree:update(1, fun (V) -> {V, V} end, Tree0).
+%% > splay_tree:to_list(Tree1).
+%% [{1,{one,one}}, {2,two}]
+%% >
+%% > splay_tree:update(3, fun (V) -> {V, V} end, Tree1).
+%% ** exception error: bad argument
+%%      in function  splay_tree:update/3
+%%         called as splay_tree:update(3,#Fun&lt;erl_eval.6.90072148&gt;,{1,{one,one},nil,{2,two}})
+%% </pre>
+-spec update(key(), update_fn(), tree()) -> tree().
+update(Key, Fun, Tree) ->
+    case path_to_node(Key, Tree) of
+        {nil, _Path} -> error(badarg, [Key, Fun, Tree]);
         {Node, Path} -> splay(val(Node,Fun(val(Node))), Path)
     end.
 
